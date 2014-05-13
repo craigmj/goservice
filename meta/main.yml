@@ -1,0 +1,12 @@
+---
+galaxy_info:
+  author: Craig Mason-Jones
+  description: A role to fetch a golang repo, build it, and create an related upstart job
+  company: 
+  license: BSD
+  min_ansible_version: 1.2
+  platforms:
+  - name: Ubuntu
+    versions: [all]
+  categories: [packaging]
+  dependencies: []

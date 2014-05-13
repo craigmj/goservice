@@ -1,0 +1,39 @@
+- name: Create the destination directory
+  sudo: yes
+  file: >
+    path={{path}}
+    recurse=yes
+    state=directory
+
+- name: Checkout repo from hg
+  sudo: yes
+  hg: >
+    repo={{repo}}
+    dest={{path}}/{{name}}
+  when: vcs=='hg'
+
+- name: Checkout repo from git
+  sudo: yes
+  git: >
+    repo={{repo}}
+    dest={{path}}/{{name}}
+  when: vcs=='git'
+
+- name: Set ownership of repo
+  sudo: yes
+  file: >
+    path={{path}}/{{name}}
+    owner={{ansible_user_id}}
+    group={{ansible_user_id}}
+
+- name: Build go app
+  shell: >
+    chdir={{path}}/{{name}}
+    GOPATH={{path}}/{{name}} {{go}} build -o {{name}} src/cmd/{{name}}.go
+
+- name: Create upstart script
+  sudo: yes
+  template: >
+    src=upstart.j2
+    dest=/etc/init/{{name}}.conf
+  notify: restart service

@@ -1,0 +1,3 @@
+---
+vcs: git
+go: /usr/local/go/bin/go

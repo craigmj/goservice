@@ -1,0 +1,4 @@
+---
+- name: restart service
+  sudo: yes
+  service: name={{name}} state=restarted
